@@ -49,11 +49,74 @@
 	 （4）释放资源
 	  		imagedestroy($img);  //销毁一个图片
 
-
- 
+二：图片处理： 缩放，裁剪， 翻转，旋转、透明、锐化等图片操作
+	 *    一、1.创建图片资源（用现有的图片创建资源）
+	 *    	  imagecreatetruecolor(width, height)
+	 *    	  gif jpg png
+	 *
+	 *	  imagecreatefromgif(图片名称);
+	 *	  imagecreatefrompng(图片名称);
+	 *	  imagecreatefromjpeg(图片名称);
+	 *
+	 *        
+	 *        2.画出各种图形（圆形，矩形， 线段， 文字）
+	 *
+	 *        3.输出格式：imagegif(,图片位置);图片位置是保存的位置
+	 *        			imagepng(,);
+	 *       			imagejpeg(,);
+	 *
+	 *        4.imagedestroy(图片资源) 销毁图片资源
+	 *   二、获取图片的属性
+	 *
+	 *   	 imagesx(res)  获取图片的宽度，参数是图片的资源
+	 *   	 imagesy(res)  获取图片的高度
+	 *
+	 *   	 getimagesize(图片名称);  //返回数组， 0==width 1==height 2==type
+	 *
+	 *   三、透明处理
+	 *   	
+	 *   	 png jpeg透明色都正常， 只有gif不正常
+	 *
+	 *   	 imagecolortransparent();
+	 *   	 imagecolorstotal();
+	 *   	 imagecolorsforindex();
+	 *
+	 *   四、图片的裁剪
+	 *   	
+	 *	imagecopyresized()
+	 *	imagecopyresampled()
+	 *
+	 *  五、加水印（文字， 图片）
+	 *	
+	 *	imagettftext();
+	 *	imagecopy();
+	 *
+	 *  六、图片旋转
+	 *
+	 *	imagerotate -- 用给定角度旋转图像
+	 *
+	 *  七、图片翻转
+	 *   	
+	 *   	沿Y轴
+	 *
+	 *	沿X轴
+	 *
+	 *八、锐化
+	 *	imagecolorsforindex()
+	 *	imagecolorat()	
+	 
   
 
  *	
  *	
  *
  */
+
+//图片缩放
+	$new=imagecreatetruecolor($n_w, $n_h);
+
+	$img=imagecreatefromjpeg($filename);
+
+	imagecopyresized($new, $img,0, 0,0, 0,$n_w, $n_h, $width, $height);//拷贝部分图像并调整大小
+//图片等比例缩放
+   24分钟
