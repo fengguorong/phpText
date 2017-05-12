@@ -4,7 +4,7 @@
 		private $height;
 		private $codeNum;
 		private $image;   //图像资源
-		private $disturbColorNum;
+		private $disturbColorNum;  //干扰元素的个数
 		private $checkCode;
 
 		function __construct($width=80, $height=20, $codeNum=4){
@@ -23,7 +23,7 @@
 		
 		}
 		//通过访问该方法向浏览器中输出图像
-		function showImage($fontFace=""){
+		function showImage($fontFace=""){  //用户自定义的字体传参时同时需要将字体文件放到相应的目录中
 			//第一步：创建图像背景
 			$this->createImage();
 			//第二步：设置干扰元素
@@ -43,7 +43,7 @@
 			//创建图像资源
 			$this->image=imagecreatetruecolor($this->width, $this->height);
 			//随机背景色
-			$backColor=imagecolorallocate($this->image, rand(225, 255), rand(225,255), rand(225, 255));
+			$backColor=imagecolorallocate($this->image, rand(225, 255), rand(225,255), rand(225, 255));//分配验证码的背景颜色
 			//为背景添充颜色
 			imagefill($this->image, 0, 0, $backColor);
 			//设置边框颜色
@@ -57,21 +57,20 @@
 				$color=imagecolorallocate($this->image, rand(0, 255), rand(0, 255), rand(0, 255));
 				imagesetpixel($this->image, rand(1, $this->width-2), rand(1, $this->height-2), $color); 
 			}
-
+			//画一些干扰弧线
 			for($i=0; $i<10; $i++){
 				$color=imagecolorallocate($this->image, rand(200, 255), rand(200, 255), rand(200, 255));
 				imagearc($this->image, rand(-10, $this->width), rand(-10, $this->height), rand(30, 300), rand(20, 200), 55, 44, $color);
 			}
 		}
-
+		//随机文本字符串
 		private function createCheckCode(){
-			$code="23456789abcdefghijkmnpqrstuvwxyzABCDEFGHIJKMNPQRSTUVWXYZ";
+			$code="23456789abcdefghijkmnpqrstuvwxyzABCDEFGHIJKMNPQRSTUVWXYZ";//因为在验证码中0和o容易混淆，所以去掉
 			$string='';
 			for($i=0; $i < $this->codeNum; $i++){
 				$char=$code{rand(0, strlen($code)-1)};
 				$string.=$char;
 			}
-
 			return $string;
 		}
 
@@ -93,7 +92,7 @@
 		}
 
 		private function outputImage() {
-			if(imagetypes() & IMG_GIF){
+			if(imagetypes() & IMG_GIF){   //imagetypes();返回php版本支持的类型
 				header("Content-Type:image/gif");
 				imagepng($this->image);
 			}else if(imagetypes() & IMG_JPG){
